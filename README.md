@@ -36,7 +36,7 @@ Una vez agregado a tu proyecto:
 
 ```bash
 cd tu-proyecto
-claude-code
+claude
 # Claude ahora habla costeño!
 ```
 
