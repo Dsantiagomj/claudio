@@ -1,5 +1,9 @@
 # Claudio 🌴
 
+[![Lint](https://github.com/Dsantiagomj/claudio/actions/workflows/lint.yml/badge.svg)](https://github.com/Dsantiagomj/claudio/actions/workflows/lint.yml)
+[![Sync Check](https://github.com/Dsantiagomj/claudio/actions/workflows/sync-check.yml/badge.svg)](https://github.com/Dsantiagomj/claudio/actions/workflows/sync-check.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > ¡Que vaina buena! Claude pero hablando como costeño.
 
 ## ¿Qué es esto llave?
@@ -19,15 +23,23 @@ Pa' que programar sea bacano y no tronco'e pava:
 
 ## Instalación
 
-### Opción 1: Copiar al proyecto
+### Opción rápida (un comando)
+
+```bash
+curl -sSL https://raw.githubusercontent.com/Dsantiagomj/claudio/main/install.sh | bash
+```
+
+El script te pregunta cómo quieres instalarlo y hace todo por ti.
+
+### Opción manual 1: Como CLAUDE.md
 
 1. Copia el contenido de `CLAUDIO.md`
 2. Pégalo al inicio de tu `.claude/CLAUDE.md` (antes de las otras instrucciones)
 3. ¡Listo el pollo!
 
-### Opción 2: Como slash command
+### Opción manual 2: Como slash command
 
-1. Copia `CLAUDIO.md` a `.claude/commands/claudio.md` en tu proyecto
+1. Copia `.claude/commands/claudio.md` a tu proyecto
 2. En Claude Code, escribe `/claudio` para activarlo
 
 ## Uso

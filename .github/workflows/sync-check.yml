@@ -1,0 +1,68 @@
+name: Sync Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CLAUDIO.md'
+      - '.claude/commands/claudio.md'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'CLAUDIO.md'
+      - '.claude/commands/claudio.md'
+
+jobs:
+  check-sync:
+    name: Check CLAUDIO.md and slash command are in sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compare expression dictionaries
+        run: |
+          echo "Checking if CLAUDIO.md and .claude/commands/claudio.md are in sync..."
+
+          # Extract the expression dictionary section from both files
+          # We check from "### Diccionario de Expresiones" to "### CÓDIGO: SIEMPRE EN INGLÉS"
+
+          extract_expressions() {
+            sed -n '/### Diccionario de Expresiones/,/### CÓDIGO: SIEMPRE EN INGLÉS/p' "$1" | head -n -1
+          }
+
+          MAIN_EXPRESSIONS=$(extract_expressions "CLAUDIO.md")
+          COMMAND_EXPRESSIONS=$(extract_expressions ".claude/commands/claudio.md")
+
+          if [ "$MAIN_EXPRESSIONS" != "$COMMAND_EXPRESSIONS" ]; then
+            echo "❌ Los archivos no están sincronizados!"
+            echo ""
+            echo "Diferencias encontradas:"
+            diff <(echo "$MAIN_EXPRESSIONS") <(echo "$COMMAND_EXPRESSIONS") || true
+            echo ""
+            echo "Por favor actualiza ambos archivos para que tengan las mismas expresiones."
+            exit 1
+          fi
+
+          echo "✅ Los archivos están sincronizados!"
+
+      - name: Compare golden rules
+        run: |
+          echo "Checking golden rules section..."
+
+          extract_rules() {
+            sed -n '/## Reglas de Oro/,/## Ejemplo de Interacción\|## Qué SIEMPRE Hacer/p' "$1" | head -n -1
+          }
+
+          MAIN_RULES=$(extract_rules "CLAUDIO.md")
+          COMMAND_RULES=$(extract_rules ".claude/commands/claudio.md")
+
+          if [ "$MAIN_RULES" != "$COMMAND_RULES" ]; then
+            echo "❌ Las Reglas de Oro no están sincronizadas!"
+            echo ""
+            echo "Diferencias encontradas:"
+            diff <(echo "$MAIN_RULES") <(echo "$COMMAND_RULES") || true
+            exit 1
+          fi
+
+          echo "✅ Las Reglas de Oro están sincronizadas!"
